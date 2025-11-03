@@ -1,38 +1,77 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 
 export default function Eyes() {
-    // UseEffect to rotate the eyebal
+    // Effect to handle mouse movement and eye animations
     useEffect(() => {
+        const eyes = document.querySelectorAll('.eyes');
+        const eyeballs = document.querySelectorAll('.eyeball');
+
+        let rafId = null; // for requestAnimationFrame
+
         const handleMouseMove = (e) => {
-            // X,Y position of mouse
             const mouseX = e.clientX;
             const mouseY = e.clientY;
 
-            // For each eye, calculate angle to mouse and rotate
-            const eyes = document.querySelectorAll('.eyeball');
-            eyes.forEach(eye => {
-                // Get eye center position
-                const rect = eye.getBoundingClientRect();
-                const eyeX = rect.left + rect.width / 2;
-                const eyeY = rect.top + rect.height / 2;
+            // Cancel any previous frame to prevent stacking
+            if (rafId) cancelAnimationFrame(rafId);
 
-                const diffX = mouseX - eyeX;
-                const diffY = mouseY - eyeY;
+            rafId = requestAnimationFrame(() => {
+                // --- ROTATION LOGIC (inner white dot) ---
+                eyeballs.forEach((eye) => {
+                    const rect = eye.getBoundingClientRect();
+                    const eyeX = rect.left + rect.width / 2;
+                    const eyeY = rect.top + rect.height / 2;
 
-                // Angle calculation
-                const angleToCenter = Math.atan2(diffY, diffX);
-                const angleInDegrees = angleToCenter * (180 / Math.PI);
-                const angle = angleInDegrees - 180; // Adjusting angle to point correctly
+                    const diffX = mouseX - eyeX;
+                    const diffY = mouseY - eyeY;
 
-                const rotatingLine = eye.querySelector('.eyeRotatingLine');
-                if (angle) rotatingLine.style.transform = `rotate(${angle}deg)`;
+                    const angleToCenter = Math.atan2(diffY, diffX);
+                    const angle = angleToCenter * (180 / Math.PI) - 180;
+
+                    const rotatingLine = eye.querySelector('.eyeRotatingLine');
+                    if (rotatingLine)
+                        rotatingLine.style.transform = `rotate(${angle}deg)`;
+                });
+
+                // --- MOVEMENT LOGIC (black magnetic motion) ---
+                eyes.forEach((whiteEye) => {
+                    const rect = whiteEye.getBoundingClientRect();
+                    const eyeCenterX = rect.left + rect.width / 2;
+                    const eyeCenterY = rect.top + rect.height / 2;
+
+                    const diffX = mouseX - eyeCenterX;
+                    const diffY = mouseY - eyeCenterY;
+
+                    const strength = 0.05; // for subtle effect
+                    const moveX = diffX * strength;
+                    const moveY = diffY * strength;
+
+                    const blackEye = whiteEye.querySelector('.eyeball');
+                    if (blackEye) {
+                        blackEye.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                    }
+                });
             });
         };
-        // Add event listener
+
+        // Function to reset eyes on mouse leave
+        const resetEyes = () => {
+            document.querySelectorAll('.eyeball').forEach((e) => {
+                e.style.transform = 'translate(0, 0)';
+            });
+        };
+
+        // Add event listeners
         window.addEventListener('mousemove', handleMouseMove);
-        // Remove event listener on cleanup
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    });
+        window.addEventListener('mouseleave', resetEyes);
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseleave', resetEyes);
+            if (rafId) cancelAnimationFrame(rafId);
+        };
+    }, []);
 
     return (
         <div className='eys -background w-full h-screen bg-[url("https://ochi.design/wp-content/uploads/2022/05/Top-Viewbbcbv-1-1440x921.jpg")] bg-cover bg-center flex justify-center items-center'>
