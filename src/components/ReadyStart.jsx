@@ -1,10 +1,28 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { ArrowUpRight } from 'lucide-react';
 
 export default function ReadyStart() {
+    // State to track if eyes are in viewport
+    const [isSmallEyeInView, setIsSmallEyeInView] = useState(false);
+    // Ref to the eyes container
+    const smallEyesRef = useRef(null);
+
+    // Intersection Observer to detect when eyes are in viewport
+    useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+            setIsSmallEyeInView(entry.isIntersecting);
+        });
+
+        observer.observe(smallEyesRef.current);
+
+        return () => observer.disconnect();
+    }, []);
+
     // Effect to handle mouse movement and eye animations
     useEffect(() => {
-        const eyes = document.querySelectorAll('.eyes');
+        if (!isSmallEyeInView) return;
+
+        const eyes = document.querySelectorAll('.smallEyes');
         const eyeballs = document.querySelectorAll('.eyeball');
 
         let rafId = null; // for requestAnimationFrame
@@ -43,7 +61,7 @@ export default function ReadyStart() {
                     const diffX = mouseX - eyeCenterX;
                     const diffY = mouseY - eyeCenterY;
 
-                    const strength = 0.05; // for subtle effect
+                    const strength = 0.04; // for subtle effect
                     const moveX = diffX * strength;
                     const moveY = diffY * strength;
 
@@ -72,7 +90,7 @@ export default function ReadyStart() {
             window.removeEventListener('mouseleave', resetEyes);
             if (rafId) cancelAnimationFrame(rafId);
         };
-    }, []);
+    }, [isSmallEyeInView]);
 
 
     return (
@@ -91,15 +109,15 @@ export default function ReadyStart() {
             </button>
 
             {/* Eyes */}
-            <div className="eyes-container w-fit h-fit flex justify-center items-center gap-10 absolute">
-                <div className="eyes w-[12vw] h-[12vw] bg-amber-50 rounded-full flex justify-center items-center">
+            <div ref={smallEyesRef} className="eyes-container w-fit h-fit flex justify-center items-center gap-10 absolute">
+                <div className="smallEyes w-[12vw] h-[12vw] bg-amber-50 rounded-full flex justify-center items-center">
                     <div className="eyeball w-[6vw] h-[6vw] bg-black rounded-full flex justify-center items-center">
                         <div className="eyeRotatingLine w-full h-fit">
                             <div className="followingEyeball w-[1vw] h-[1vw] bg-white rounded-full"></div>
                         </div>
                     </div>
                 </div>
-                <div className="eyes w-[12vw] h-[12vw] bg-amber-50 rounded-full flex justify-center items-center">
+                <div className="smallEyes w-[12vw] h-[12vw] bg-amber-50 rounded-full flex justify-center items-center">
                     <div className="eyeball w-[6vw] h-[6vw] bg-black rounded-full flex justify-center items-center">
                         <div className="eyeRotatingLine w-full h-fit">
                             <div className="followingEyeball w-[1vw] h-[1vw] bg-white rounded-full"></div>

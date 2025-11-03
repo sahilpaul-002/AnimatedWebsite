@@ -1,8 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 export default function Eyes() {
+    // State to track if eyes are in viewport
+    const [isInView, setIsInView] = useState(false);
+    // Ref to the eyes container
+    const eyesRef = useRef(null);
+
+    // Intersection Observer to detect when eyes are in viewport
+    useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+            setIsInView(entry.isIntersecting);
+        });
+
+        observer.observe(eyesRef.current);
+
+        return () => observer.disconnect();
+    }, []);
+
     // Effect to handle mouse movement and eye animations
     useEffect(() => {
+        if (!isInView) return;
+
         const eyes = document.querySelectorAll('.eyes');
         const eyeballs = document.querySelectorAll('.eyeball');
 
@@ -71,11 +89,11 @@ export default function Eyes() {
             window.removeEventListener('mouseleave', resetEyes);
             if (rafId) cancelAnimationFrame(rafId);
         };
-    }, []);
+    }, [isInView]);
 
     return (
         <div className='eys -background w-full h-screen bg-[url("https://ochi.design/wp-content/uploads/2022/05/Top-Viewbbcbv-1-1440x921.jpg")] bg-cover bg-center flex justify-center items-center'>
-            <div className="eyes-container w-fit h-fit flex justify-center items-center gap-10">
+            <div ref={eyesRef} className="eyes-container w-fit h-fit flex justify-center items-center gap-10">
                 <div className="eyes w-[20vw] h-[20vw] bg-amber-50 rounded-full flex justify-center items-center">
                     <div className="eyeball w-[12vw] h-[12vw] bg-black rounded-full flex justify-center items-center">
                         <div className="eyeRotatingLine w-full h-fit">
