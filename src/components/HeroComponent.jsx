@@ -6,7 +6,7 @@ export default function HeroComponent() {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <div className="landingComponent w-full h-full lg:min-h-screen px-2 lg:px-4 py-1">
+        <div className="landingComponent w-full h-full lg:min-h-screen px-2 lg:px-4 py-1" data-scroll data-scroll-speed='-0.3'>
             <div className="textStructure mt-40 mb-[10vw] lg:mb-0 px-10 lg:px-20">
                 {["WE CREATE", "EYE OPENING", "PRESENTATIONS"].map((text, index) => {
                     return (
