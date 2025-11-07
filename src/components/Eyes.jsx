@@ -92,8 +92,9 @@ export default function Eyes() {
     }, [isInView]);
 
     return (
-        <div className='eys -background w-full h-screen bg-[url("https://ochi.design/wp-content/uploads/2022/05/Top-Viewbbcbv-1-1440x921.jpg")] bg-cover bg-center flex justify-center items-center'>
-            <div ref={eyesRef} className="eyes-container w-fit h-fit flex justify-center items-center gap-10">
+        // data-scroll data-scroll-speed='-0.7'
+        <div className='eyes -background w-full h-screen bg-[url("https://ochi.design/wp-content/uploads/2022/05/Top-Viewbbcbv-1-1440x921.jpg")] bg-cover bg-center flex justify-center items-center relative' data-scroll data-scroll-speed="-0.7">
+            <div ref={eyesRef} className="eyes-container w-fit h-fit flex justify-center items-center gap-10" >
                 <div className="eyes w-[20vw] h-[20vw] bg-amber-50 rounded-full flex justify-center items-center">
                     <div className="eyeball w-[12vw] h-[12vw] bg-black rounded-full flex justify-center items-center">
                         <div className="eyeRotatingLine w-full h-fit">

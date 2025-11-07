@@ -14,8 +14,12 @@ export default function Landing() {
   return (
     <div className="landingPageContainer w-[99vw] min-h-screen bg-zinc-900 px-4 py-2">
         <HeroComponent />
-        <Marquee />
-        <Approch />
+        {/* <Marquee /> */}
+        {/* <Approch /> */}
+        <div className="marquee&approach-container relative z-1" data-scroll data-scroll-speed="0.1">
+          <Marquee />
+          <Approch />
+        </div>
         <Eyes />
         <ReadyStart />
     </div>

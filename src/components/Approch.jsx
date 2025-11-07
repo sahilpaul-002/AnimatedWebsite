@@ -6,7 +6,7 @@ export default function Approch() {
     // State to manage button hover
     const [isButtonHovered, setIsButtonHovered] = useState(false);
   return (
-    <div className='w-full h-full px-10 py-10 md:py-20 bg-[#CDEA68] rounded-tl-3xl rounded-tr-3xl'>
+    <div className='w-full h-full px-10 py-10 md:py-20 bg-[#CDEA68] rounded-tl-3xl rounded-tr-3xl' data-scroll data-scroll-speed="-0.1">
         <motion.span className='text-[3vw] text-black' initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ease: "easeInOut", duration: 2 }} viewport={{ once: true, amount: 0.5 }}>We craft category-defining presentations, brand identities, and digital experiences that drive funding, sales, and market leadership.</motion.span>
 
         <motion.div className="w-full border-t border-zinc-700 my-10" initial={{ scaleX: 0 }} whileInView={{ scaleX: 0.9 }} transition={{ ease: "easeInOut", duration: 2 }} viewport={{ once: true, amount: 0.5 }}></motion.div>
