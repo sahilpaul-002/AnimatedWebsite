@@ -95,23 +95,31 @@ export default function ReadyStart() {
 
     // State to manage button hover
     const [isButtonHovered, setIsButtonHovered] = useState(false);
-    
+
+    // State to track if text hovered
+    const [isFirstTextHovered, setIsFirstTextHovered] = useState(false);
+    const [isSecondTextHovered, setIsSecondTextHovered] = useState(false);
+    const [isThirdTextHovered, setIsThirdTextHovered] = useState(false);
+
     return (
-        <div className='readyStart-container w-full h-[40vh] md:h-screen  bg-[#CDEA68] rounded-tl-3xl rounded-tr-3xl flex flex-col justify-center items-center gap-10 relative'>
-            <div className="text-container w-[80vw] h-fit flex flex-col justify-center items-center py-5">
-                <h2 className='text-[12vw] text-black font-bold text-center tracking-tighter leading-[9vw]'>Ready</h2>
-                <h2 className='text-[12vw] text-black font-bold text-center tracking-tighter leading-[9vw]'>to start</h2>
-                <h2 className='text-[12vw] text-black font-bold text-center tracking-tighter leading-[9vw]'>the project ?</h2>
+        <div className='readyStart-container w-full h-[90vw] md:h-screen  bg-[#CDEA68] rounded-tl-3xl rounded-tr-3xl flex flex-col justify-center items-center gap-[5vw] relative'>
+            <div className="text-container w-[80vw] h-fit flex flex-col justify-center items-center  mt-[10vw]">
+                <h2 className='text-[12vw] w-fit h-[9.5vw] pr-4 text-black font-semibold text-center tracking-tighter leading-[9vw] overflow-hidden' onMouseEnter={() => setIsFirstTextHovered(true)} onMouseLeave={() => setIsFirstTextHovered(false)}>
+                    <motion.span className='block pt-0' initial={{ y: 0 }} animate={isFirstTextHovered ? { y: "-160%" } : { y: 0 }} transition={{ease: "linear", duration: 0.2}}>READY</motion.span>
+                    <motion.span className={`block ${isFirstTextHovered ? "mt-0" : "mt-14"}`} initial={{ y: 0 }} animate={isFirstTextHovered ? { y: "-100%" } : { y: 0 }} transition={{ease: "linear", duration: 0.2}}>READY</motion.span>
+                </h2>
+                <h2 className='text-[12vw] w-fit h-[9.5vw] pr-4 text-black font-semibold text-center tracking-tighter leading-[9vw] overflow-hidden' onMouseEnter={() => setIsSecondTextHovered(true)} onMouseLeave={() => setIsSecondTextHovered(false)}>
+                    <motion.span className='block pt-0' initial={{ y: 0 }} animate={isSecondTextHovered ? { y: "-160%" } : { y: 0 }} transition={{ease: "linear", duration: 0.2}}>TO START</motion.span>
+                    <motion.span className={`block ${isSecondTextHovered ? "mt-0" : "mt-14"}`} initial={{ y: 0 }} animate={isSecondTextHovered ? { y: "-100%" } : { y: 0 }} transition={{ease: "linear", duration: 0.2}}>TO START</motion.span>
+                </h2>
+                <h2 className='text-[12vw] w-fit h-[9.5vw] pr-4 text-black font-semibold text-center tracking-tighter leading-[9vw] overflow-hidden' onMouseEnter={() => setIsThirdTextHovered(true)} onMouseLeave={() => setIsThirdTextHovered(false)}>
+                    <motion.span className='block pt-0' initial={{ y: 0 }} animate={isThirdTextHovered ? { y: "-160%" } : { y: 0 }} transition={{ease: "linear", duration: 0.2}}>THE PROJECT ?</motion.span>
+                    <motion.span className={`block ${isThirdTextHovered ? "mt-0" : "mt-14"}`} initial={{ y: 0 }} animate={isThirdTextHovered ? { y: "-100%" } : { y: 0 }} transition={{ease: "linear", duration: 0.2}}>THE PROJECT ?</motion.span>
+                </h2>
             </div>
 
-            {/* <button className="w-[20vw] h-[4vw] px-5 py-1 ms-5 bg-zinc-900  rounded-full flex justify-center items-center gap-4">
-                <span className='text-[1.5vw] text-white'>Start the project</span>
-                <div className="w-8 h-8 p-1 bg-white rounded-full lg:flex justify-center items-center hidden">
-                    <ArrowUpRight color="black" size={18} />
-                </div>
-            </button> */}
-            <motion.button className="w-[17vw] h-[4vw] px-5 py-1 bg-zinc-900  rounded-full flex justify-center items-center origin-left relative" initial={{ opacity: 0.7 }} whileHover={{ opacity: 1 }} onHoverStart={() => setIsButtonHovered(true)} onHoverEnd={() => setIsButtonHovered(false)}>
-                <span className='text-[1.5vw] text-white me-10'>Start the project</span>
+            <motion.button className="w-[17vw] lg:w-[22vw] xl:w-[17vw] h-[4vw] px-5 py-1 bg-zinc-900  rounded-full flex justify-center items-center origin-left relative" initial={{ opacity: 0.7 }} whileHover={{ opacity: 1 }} onHoverStart={() => setIsButtonHovered(true)} onHoverEnd={() => setIsButtonHovered(false)}>
+                <span className='text-[1.5vw] text-white me-0 lg:me-10'>Start the project</span>
                 <div className="w-2 h-2 p-1 bg-white rounded-full hidden lg:inline-block absolute right-9 z-10"></div>
                 <motion.div className="w-8 h-8 p-1 bg-white rounded-full lg:flex justify-center items-center hidden absolute right-6 z-10" initial={{ scale: 0 }} animate={{ scale: isButtonHovered ? 1 : 0 }} transition={{ ease: "easeInOut", duration: 0.5 }} viewport={{ once: false, amount: 0.5 }}>
                     <ArrowUpRight color="black" size={18} />
@@ -119,7 +127,7 @@ export default function ReadyStart() {
             </motion.button>
 
             {/* Eyes */}
-            <div ref={smallEyesRef} className="eyes-container w-fit h-fit flex justify-center items-center gap-10 absolute" data-scroll data-scroll-speed="0.5">
+            <div ref={smallEyesRef} className="eyes-container w-fit h-fit flex justify-center items-center gap-10 absolute top-10 md:top-40 " data-scroll data-scroll-speed="0.5">
                 <div className="smallEyes w-[12vw] h-[12vw] bg-amber-50 rounded-full flex justify-center items-center">
                     <div className="eyeball w-[6vw] h-[6vw] bg-black rounded-full flex justify-center items-center">
                         <div className="eyeRotatingLine w-full h-fit">
